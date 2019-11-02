@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import org.thoughtcrime.securesms.logging.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -112,6 +113,15 @@ public class WebRtcCallActivity extends Activity {
   }
 
   @Override
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+      handleSilenceRinger();
+      return true;
+    }
+    return super.onKeyDown(keyCode, event);
+  }
+
+  @Override
   public void onConfigurationChanged(Configuration newConfiguration) {
     super.onConfigurationChanged(newConfiguration);
   }
@@ -181,6 +191,12 @@ public class WebRtcCallActivity extends Activity {
   private void handleFlipCamera() {
     Intent intent = new Intent(this, WebRtcCallService.class);
     intent.setAction(WebRtcCallService.ACTION_FLIP_CAMERA);
+    startService(intent);
+  }
+
+  private void handleSilenceRinger() {
+    Intent intent = new Intent(this, WebRtcCallService.class);
+    intent.setAction(WebRtcCallService.ACTION_SILENCE_RINGER);
     startService(intent);
   }
 

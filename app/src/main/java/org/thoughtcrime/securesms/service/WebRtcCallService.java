@@ -130,6 +130,7 @@ public class WebRtcCallService extends Service implements CallConnection.Observe
   public static final String ACTION_BLUETOOTH_CHANGE     = "BLUETOOTH_CHANGE";
   public static final String ACTION_WIRED_HEADSET_CHANGE = "WIRED_HEADSET_CHANGE";
   public static final String ACTION_SCREEN_OFF           = "SCREEN_OFF";
+  public static final String ACTION_SILENCE_RINGER       = "SILENCE_RINGER";
   public static final String ACTION_CHECK_TIMEOUT        = "CHECK_TIMEOUT";
   public static final String ACTION_IS_IN_CALL_QUERY     = "IS_IN_CALL";
   public static final String ACTION_SET_AUDIO_SPEAKER    = "SET_AUDIO_SPEAKER";
@@ -212,7 +213,8 @@ public class WebRtcCallService extends Service implements CallConnection.Observe
       else if (intent.getAction().equals(ACTION_FLIP_CAMERA))               handleSetCameraFlip(intent);
       else if (intent.getAction().equals(ACTION_BLUETOOTH_CHANGE))          handleBluetoothChange(intent);
       else if (intent.getAction().equals(ACTION_WIRED_HEADSET_CHANGE))      handleWiredHeadsetChange(intent);
-      else if (intent.getAction().equals(ACTION_SCREEN_OFF))                handleScreenOffChange(intent);
+      else if (intent.getAction().equals(ACTION_SCREEN_OFF))                handleSilenceRinger(intent);
+      else if (intent.getAction().equals(ACTION_SILENCE_RINGER))            handleSilenceRinger(intent);
       else if (intent.getAction().equals(ACTION_REMOTE_VIDEO_MUTE))         handleRemoteVideoMute(intent);
       else if (intent.getAction().equals(ACTION_RESPONSE_MESSAGE))          handleResponseMessage(intent);
       else if (intent.getAction().equals(ACTION_ICE_MESSAGE))               handleRemoteIceCandidate(intent);
@@ -877,7 +879,7 @@ public class WebRtcCallService extends Service implements CallConnection.Observe
     }
   }
 
-  private void handleScreenOffChange(Intent intent) {
+  private void handleSilenceRinger(Intent intent) {
     if (callState == CallState.STATE_ANSWERING ||
         callState == CallState.STATE_LOCAL_RINGING)
     {
